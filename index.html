@@ -1,0 +1,85 @@
+
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>小象骑手收入换算器</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        label {
+            display: block;
+        }
+        input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        #result {
+            font-size: 1.2em;
+            color: #333;
+            width: 80%;
+        }
+
+        .rules {
+            margin-top: 80px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <h1>小象骑手收入换算器</h1>
+        <label>请输入跑单数量：</label>
+        <input id="orderCount" type="number" onchange="calculateIncome()" />
+        <div>
+            <label>单量收入：</label>
+            <input id="result" type="number" readonly />（元）</div>
+        <div class="rules">
+            <p>1. 跑单数量小于900单时，按每单3.8元计算。</p>
+            <p>2. 跑单数量等于900单时，总收入为3000元。</p>
+            <p>3. 跑单数量在900到1200单之间时，每增加一单收入增加4.5元。</p>
+            <p>4. 跑单数量在1200到1500单之间时，每增加一单收入增加4.7元。</p>
+            <p>5. 跑单数量在1500到1800单之间时，每增加一单收入增加4.9元。</p>
+            <p>6. 跑单数量超过1800单时，每增加一单收入增加5元。</p>
+        </div>
+    </div>
+
+    <script>
+        function calculateIncome() {
+            const orderCount = parseInt(document.getElementById('orderCount').value);
+            let totalIncome = 0;
+
+            if (orderCount < 900) {
+                totalIncome = orderCount * 3.8;
+            } else if (orderCount === 900) {
+                totalIncome = 3000;
+            } else if (orderCount <= 1200) {
+                totalIncome = 3000 + (orderCount - 900) * 4.5;
+            } else if (orderCount <= 1500) {
+                totalIncome = 3000 + 300 * 4.5 + (orderCount - 1200) * 4.7;
+            } else if (orderCount <= 1800) {
+                totalIncome = 3000 + 300 * 4.5 + 300 * 4.7 + (orderCount - 1500) * 4.9;
+            } else {
+                totalIncome = 3000 + 300 * 4.5 + 300 * 4.7 + 300 * 4.9 + (orderCount - 1800) * 5;
+            }
+            document.getElementById('result').value = totalIncome.toFixed(2);
+        }
+    </script>
+</body>
+</html>
